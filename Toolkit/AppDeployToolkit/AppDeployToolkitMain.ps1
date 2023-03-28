@@ -4321,6 +4321,9 @@ https://psappdeploytoolkit.com
                 }
 
                 $null = $process.Start()
+                # To avoid deadlocks, always read the output stream first and then wait. https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.standardoutput?redirectedfrom=MSDN&view=net-7.0#remarks
+                $null = $process.StandardOutput.ReadToEnd() 
+                
                 ## Set priority
                 If ($PriorityClass -ne 'Normal') {
                     Try {
